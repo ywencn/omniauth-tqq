@@ -30,6 +30,12 @@ module OmniAuth
         consumer = ::OAuth::Consumer.new(options.consumer_key, options.consumer_secret, options.client_options)
         consumer
       end
+      
+      def head_image
+        img = raw_info['data']['head']
+        return nil if img.blank?
+        img.concat("/100")
+      end
 
       #TODO:  this is missing from the raw_info request. it is in other api methods.  should we make two calls?
        uid { raw_info["open_id"] }
@@ -39,7 +45,7 @@ module OmniAuth
           :nickname => raw_info['data']['nick'],
           :name => raw_info['data']['name'],
           :location => raw_info['data']['location'],
-          :image => raw_info['data']['head'],
+          :image => head_image,
           :description => raw_info['description'],
           :urls => {
             'Tqq' => 't.qq.com'
